@@ -12,6 +12,8 @@ BOT_NAME = 'lyric_scraper'
 SPIDER_MODULES = ['lyric_scraper.spiders']
 NEWSPIDER_MODULE = 'lyric_scraper.spiders'
 
+HTTPERROR_ALLOWED_CODES  =[404]
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'lyric_scraper (+http://www.yourdomain.com)'

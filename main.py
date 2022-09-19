@@ -3,6 +3,8 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from decouple import config
 import json
+from scrapy.crawler import CrawlerProcess
+from lyric_scraper.spiders.lyric_spider import LyricSpider
 
 cid = config('SPOTIFY_CLIENT_ID')
 secret = config('SPOTIFY_CLIENT_SECRET')
@@ -28,6 +30,7 @@ for album in results['items']:
         'name': album['name'],
         'year': album['release_date'][:4],
         'uri': album['uri'],
+        'num_tracks': 0,
         'tracks': []
     })
 
@@ -40,11 +43,18 @@ for album in discography['albums']:
         if 'version' in track_name.lower() or 'live' in track_name.lower():
             continue
 
+        album['num_tracks'] += 1
+
         album['tracks'].append({
             'name': track_name,
             'uri': track['uri']
         })
 
     
-with open('discography.json', 'w') as f:
-    json.dump(discography, f)
+#with open('discography.json', 'w') as f:
+    #json.dump(discography, f)
+
+process = CrawlerProcess()
+
+process.crawl(LyricSpider, artist='red hot chili peppers', song='californication')
+process.start() 

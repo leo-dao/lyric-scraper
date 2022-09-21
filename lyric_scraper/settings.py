@@ -14,7 +14,6 @@ NEWSPIDER_MODULE = 'lyric_scraper.spiders'
 
 HTTPERROR_ALLOWED_CODES  =[404]
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'lyric_scraper (+http://www.yourdomain.com)'
 
@@ -37,6 +36,8 @@ ROBOTSTXT_OBEY = True
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
+
+TELNETCONSOLE_PORT = None
 
 # Override the default request headers:
 #DEFAULT_REQUEST_HEADERS = {

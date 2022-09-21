@@ -42,6 +42,10 @@ for album in discography['albums']:
 
         if 'version' in track_name.lower() or 'live' in track_name.lower():
             continue
+        
+        # Removing - remastered, - live, etc.
+        if ' - ' in track_name:
+            track_name = track_name.split(' - ')[0]
 
         album['num_tracks'] += 1
 
@@ -50,11 +54,21 @@ for album in discography['albums']:
             'uri': track['uri']
         })
 
-    
 #with open('discography.json', 'w') as f:
     #json.dump(discography, f)
 
 process = CrawlerProcess()
 
-process.crawl(LyricSpider, artist='red hot chili peppers', song='californication')
-process.start() 
+for album in discography['albums']:
+    for track in album['tracks']:
+        process.crawl(LyricSpider, artist=discography['artist'], album=album['name'], song=track['name'])
+
+process.start()
+
+with open('error.json', 'w') as f:
+    json.dump(LyricSpider.error, f)
+    f.close()
+
+with open('instances.json', 'w') as f:
+    json.dump(LyricSpider.instance, f)
+    f.close()
